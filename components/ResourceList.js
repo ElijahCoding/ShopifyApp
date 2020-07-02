@@ -39,7 +39,14 @@ function ProductList() {
 
     return (
         <div>
-            <h1>product list component</h1>
+            <h1>selected products:</h1>
+            {
+                data.nodes.map(item => {
+                    return (
+                        <p key={item.id}>{item.title}</p>
+                    )
+                })
+            }
         </div>
     );
 }
