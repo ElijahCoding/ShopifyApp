@@ -30,3 +30,18 @@ const GET_PRODUCTS_BY_ID = gql`
         }
     }
 `;
+
+function ProductList() {
+    const { loading, error, data } = useQuery(GET_PRODUCTS_BY_ID, { variables: { ids: store.get('ids') } })
+
+    if (loading) return <div>Loading...</div>
+    if (error) return <div>{error.message}</div>
+
+    return (
+        <div>
+            <h1>product list component</h1>
+        </div>
+    );
+}
+
+export default ProductList;

@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { EmptyState, Layout, Page } from "@shopify/polaris";
-import { ResourcePicker, TitleBar } from '@shopify/app-bridge-react';
+import React, {useState} from 'react';
+import {EmptyState, Layout, Page} from "@shopify/polaris";
+import {ResourcePicker, TitleBar} from '@shopify/app-bridge-react';
 import store from 'store-js';
+import ProductList from "../components/ResourceList";
 
 function Index() {
-    const [modal, setModal] = useState({ open: false })
+    const [modal, setModal] = useState({open: false})
     const emptyState = !store.get('ids');
 
     function handleSelection(resources) {
         const idsFromResources = resources.selection.map((product) => product.id);
-        setModal({ open: false });
+        setModal({open: false});
         store.set('ids', idsFromResources)
 
         const selectedProducts = resources.selection;
@@ -25,20 +26,24 @@ function Index() {
                 resourceType="Product"
                 showVariants={false}
                 open={modal.open}
-                onCancel={() => setModal({ open: false })}
+                onCancel={() => setModal({open: false})}
                 onSelection={(resources) => handleSelection(resources)}
             />
             <Layout>
-                <EmptyState
-                    heading="Manage your inventory transfers"
-                    action={{
-                        content: 'Select Products',
-                        onAction: () => setModal({ open: true })
-                    }}
-                    image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
-                >
-                    <p>Select Products</p>
-                </EmptyState>
+                {emptyState ?
+                    <EmptyState
+                        heading="Manage your inventory transfers"
+                        action={{
+                            content: 'Select Products',
+                            onAction: () => setModal({open: true})
+                        }}
+                        image="https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg"
+                    >
+                        <p>Select Products</p>
+                    </EmptyState>
+                    :
+                    <ProductList/>
+                }
             </Layout>
         </Page>
     )
